@@ -55,5 +55,8 @@ def create_app(test_config=None):
 
     app.cli.add_command(init_db_command)        
     db.init_app(app)
-    
+
+    from controllers import user
+    app.register_blueprint(user.app)
+
     return app
