@@ -41,7 +41,7 @@ def update_user(user_id):
     data = request.json
 
     mapper = inspect(User)
-    assert mapper is not None  # garante ao type checker que inspect() retornou um mapper válido
+    assert mapper is not None  
 
     for column in mapper.attrs:
         if column.key in data:
@@ -55,7 +55,7 @@ def update_user(user_id):
 
 
 @app.route('/<int:user_id>', methods=["DELETE"])
-def delete_user(user_id):  # renomeado de get_user -> delete_user (era o nome duplicado)
+def delete_user(user_id):  
     user = db.get_or_404(User, user_id)
     db.session.delete(user)
     db.session.commit()
@@ -64,9 +64,9 @@ def delete_user(user_id):  # renomeado de get_user -> delete_user (era o nome du
 
 
 @app.route("/", methods=["GET", "POST"])
-def handle_user():
+def list_or_create_user():
     if request.method == "POST":
         _create_user()
         return {"message": "User created"}, HTTPStatus.CREATED
     else:
-        return {"message": "Users"}
+        return {"Users": _list_users()}
