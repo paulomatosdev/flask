@@ -12,8 +12,15 @@ def _create_user():
 
 def _list_users():
     query = db.select(User)
-    results = db.session.execute
-    return results
+    users = db.session.execute(query).scalars()
+    return [
+        {
+        "id": user.id, 
+        "username": user.username,
+        } 
+        for user in users
+    ]
+    
 
 
 @app.route("/", methods=["GET", "POST"])
