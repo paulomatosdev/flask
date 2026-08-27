@@ -75,6 +75,8 @@ def delete_user(user_id):
 @app.route("/", methods=["GET", "POST"])
 @jwt_required()
 def list_or_create_user():
+    identity = get_jwt_identity(),
+    user = db.get_or_404(User, identity)
     if request.method == "POST":
         _create_user()
         return {"message": "User created"}, HTTPStatus.CREATED
