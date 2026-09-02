@@ -91,11 +91,12 @@ def create_app(test_config=None):
     jwt.init_app(app)
 
     # registro de blueprints
-    from controllers import user, auth, role
+    from controllers import user, auth, role, post
     
     
     app.register_blueprint(user.app)
     app.register_blueprint(auth.app)
     app.register_blueprint(role.app)
+    app.register_blueprint(post.app)
 
     return app
