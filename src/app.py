@@ -42,6 +42,7 @@ class User(db.Model):
     active: Mapped[bool] = mapped_column(sa.Boolean, default=True)
     role_id: Mapped[int] = mapped_column(sa.ForeignKey("role.id"))
     role: Mapped["Role"] = relationship(back_populates="user")
+    posts: Mapped[list["Post"]] = relationship(back_populates="author")
     
 
 
@@ -54,14 +55,14 @@ class Post(db.Model):
     content: Mapped[str] = mapped_column(sa.String, nullable=False)
     created: Mapped[datetime] = mapped_column(sa.DateTime, server_default=sa.func.now())
     author_id: Mapped[int] = mapped_column(sa.ForeignKey('user.id'))
+    author: Mapped["User"] = relationship(back_populates="posts")
 
     def __repr__(self) -> str:
-        return f"Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r} "
+        return f"Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r})"
 
 
 @click.command('init-db')
 def init_db_command():
-    """Clear the existing data and create new tables."""
     global db
     with current_app.app_context():
         db.create_all()

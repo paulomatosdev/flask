@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flask-app"
+version = "0.1.0"
+description = "Flask application with authentication and blog management"
+authors = [{name = "Paulo", email = "paulo@example.com"}]
+requires-python = ">=3.9"
+dependencies = [
+    "Flask>=3.0.0",
+    "Flask-SQLAlchemy>=3.1.0",
+    "Flask-JWT-Extended>=4.5.0",
+    "python-dotenv>=1.0.0",
+    "alembic>=1.12.0",
+    "SQLAlchemy>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+]
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "-q"]
+testpaths = ["tests"]
+python_files = "test_*.py"
+
+[tool.setuptools]
+packages = ["src", "controllers"]
