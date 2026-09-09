@@ -72,6 +72,7 @@ def delete_user(user_id):
     return "", HTTPStatus.NO_CONTENT
 
 
+@app.route("", methods=["GET", "POST"])
 @app.route("/", methods=["GET", "POST"])
 @jwt_required()
 @requires_roles("admin")
@@ -84,6 +85,6 @@ def list_or_create_user():
     
     if request.method == "POST":
         _create_user()
-        return {"message": "User created"}, HTTPStatus.CREATED
+        return {"message": "User created!"}, HTTPStatus.CREATED
     else:
-        return {"identity": get_jwt_identity(), "Users": _list_users()}
+        return {"users": _list_users()}
