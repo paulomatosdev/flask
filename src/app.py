@@ -73,7 +73,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite',
+        SQLALCHEMY_DATABASE_URL='sqlite:///db.sqlite',
         JWT_SECRET_KEY = "super-secret",
     )
 
@@ -100,3 +100,6 @@ def create_app(test_config=None):
     app.register_blueprint(post.app)
 
     return app
+
+
+app = create_app()
