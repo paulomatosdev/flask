@@ -1,7 +1,7 @@
 import pytest
 from src.app import create_app, db, User, Role
 
-@pytest.fixture()
+@pytest.fixture
 def app():
     app = create_app(
         {
@@ -17,7 +17,7 @@ def app():
         db.drop_all()
 
 
-@pytest.fixture()
+@pytest.fixture
 def client(app):
     return app.test_client()
 
