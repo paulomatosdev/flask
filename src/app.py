@@ -2,23 +2,19 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from models.models import db
+import os
 
 migrate = Migrate()
 jwt = JWTManager()
 
-def create_app(test_config=None):
+def create_app(enviroment=os.environ('ENVIROMENT')):
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URL='sqlite:///db.sqlite',
-        JWT_SECRET_KEY = "super-secret",
-    )
+    app.config.from_object(f"config.{enviroment.title()}Config")
 
-    if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        
-        app.config.from_mapping(test_config)
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass    
 
 
     db.init_app(app)
