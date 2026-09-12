@@ -1,5 +1,5 @@
 import pytest
-from src.app import create_app, db, User, Role
+from src.app import create_app, db, User, Role, bcrypt
 
 @pytest.fixture
 def app():
@@ -28,7 +28,7 @@ def user(client, role):
     user = User(
         username="test_user",
         email="test_user@example.com",
-        password="test_password",
+        password=bcrypt.generate_password_hash("test_password").decode("utf-8"),
         role_id=role.id,
     )
     db.session.add(user)
@@ -40,7 +40,7 @@ def user(client, role):
 def access_token(client, user):
     response = client.post(
         "/auth/login",
-        json={"username": user.username, "password": user.password},
+        json={"username": user.username, "password": "test_password"},
     )
     return response.json["access_token"]
 

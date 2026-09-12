@@ -13,7 +13,7 @@ def _create_user():
     data = request.json
     user = User(username=data["username"],
                 email=data["email"],
-                password=bcrypt.generate_password_hash(data["password"]),
+                password=bcrypt.generate_password_hash(data["password"]).decode("utf-8"),
                 role_id=data["role_id"])
     db.session.add(user)
     db.session.commit()

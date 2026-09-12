@@ -6,7 +6,7 @@ class Config:
    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
-class productionConfig(Config):
+class ProductionConfig(Config):
    pass
 
 class DevelopmentConfig(Config):
@@ -17,5 +17,5 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     SECRET_KEY = 'test'
-    DATABASE_URI = "sqlite://"
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
     JWT_SECRET_KEY = 'test'

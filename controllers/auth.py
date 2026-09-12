@@ -2,7 +2,7 @@ from flask import Blueprint, request
 
 from sqlalchemy import inspect
 from http import HTTPStatus
-from src.app import bcrypt
+from src.app import bcrypt, db, User
 
 from flask import jsonify
 from flask import request
