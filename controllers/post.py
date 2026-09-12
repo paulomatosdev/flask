@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from src.app import Post, db, User
+from src.app import db
+from models.post import Post
 from http import HTTPStatus
 from sqlalchemy import inspect
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -10,9 +11,11 @@ app = Blueprint("post", __name__, url_prefix="/posts")
 
 def _create_post():
     data = request.json
-    post = Post(title=data["title"],
-                content=data["content"],
-                author_id=data["author_id"])
+    post = Post()
+    post.title = data["title"]
+    post.content = data["content"]
+    post.author_id = data["author_id"]
+    
     db.session.add(post)
     db.session.commit()
     return post
