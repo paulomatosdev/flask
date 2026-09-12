@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
-from src.app import User, db
+from src.app import db
+from models.user import User
+from models.role import Role
 from http import HTTPStatus
 from sqlalchemy import inspect
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -11,10 +13,12 @@ app = Blueprint("user", __name__, url_prefix="/users")
 
 def _create_user():
     data = request.json
-    user = User(username=data["username"],
-                email=data["email"],
-                password=bcrypt.generate_password_hash(data["password"]).decode("utf-8"),
-                role_id=data["role_id"])
+    user = User()
+    user.username = data["username"]
+    user.email = data["email"]
+    user.password = bcrypt.generate_password_hash(data["password"]).decode("utf-8")
+    user.role_id = data["role_id"]
+    
     db.session.add(user)
     db.session.commit()
     return user

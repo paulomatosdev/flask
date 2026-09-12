@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
-from models.base import db
-from models.user import User
-from models.role import Role
-from models.post import Post
 from flask_bcrypt import Bcrypt
+
+from models.base import db
+from HttpException import HTTPException
+
+import json
 import os
 
 migrate = Migrate()
@@ -29,6 +30,17 @@ def create_app(enviroment=os.environ.get('ENVIROMENT', 'development')):
 
     # registro de blueprints
     from controllers import user, auth, role, post
+
+    @app.errorhandler(HTTPException)
+    def handle_exception(e):
+        response = e.get_response()
+        response.data = json.dumps({
+            "code": e.code,
+            "name": e.name,
+            "description": e.description,
+        })
+        response.content_type = "application/json"
+        return response
     
     
     app.register_blueprint(user.app)
